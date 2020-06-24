@@ -1,0 +1,72 @@
+登陆验证:
+{"OT":1 , "LoginName":"admin" , "LoginPwd":"admin"}
+{'result': 0}
+{'result': 1, 'name':, 'ID':, 'AuthorityLevel': , 'Token':}
+
+
+录入道路基本信息表：
+{"OT":2 ,
+ "RoadNo":"023H48F032032141" , "RoadName":"石油西路" , "RoadLevel":"次干路" , "ConservationLevel":"2等养护道路" ,
+ "RoadLength":401 , "RoadWidth":40 , "RoadSquare":160000 , "RoadType":"水泥路" ,
+ "RoadStart":"105.88352,29.355017" , "RoadEnd":"105.882677,29.355153" , "RoadDirection":"东南-西北" , "LaneNum":6 ,
+ "Speed":90 , "SurfaceLevel":"中级" , "AADT":15000 , "TranLevel":"特轻" ,
+ "BuildDate":"1999-8-12" , "SurfaceThick":6 , "InnerType":"柔性基层" , "InnerThick":5 ,
+ "DesignCom":"重庆讯江规划设计集团" , "BuildCom":"重庆益欧路桥建设有限公司" , "ManageCom":"重庆地方公路管理局" , "Token":"LHX123"
+}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+获取道路列表
+{"OT":3 , "Token":"LHX123"}
+{'result':1 , 'info':数组} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+
+获取道路基本信息表：
+{"OT":4 , "RoadNo":"023H48F030037790" , "Token":"LHX123"}
+{'result':1 ,
+"RoadNo": , "RoadName": , "RoadLevel":,
+"ConservationLevel": , "RoadLength":,
+"RoadWidth": , "RoadSquare": , "RoadType":,
+ "RoadStart":, "RoadEnd": , "RoadDirection":, "LaneNum": ,
+ "Speed": , "SurfaceLevel":, "AADT": ,
+ "TranLevel": ,  "BuildDate":, "SurfaceThick": , "InnerType":,
+"InnerThick": , "DesignCom": , "BuildCom": , "ManageCom":,
+} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+由路名获取道路编号
+{"OT":5 , "RoadName":"石油西路" , "Token":"LHX123"}
+{'result':1 , "RoadNo":}
+{'result':0 } #查无此路
+
+
+录入日常巡查表
+{"OT":6 ,
+"RoadNo":"" , "RoadName":"" , "DamageType":"" ,
+"UserNo":"" , "ReportDate":"" , "IsDamageBad": ,
+"DamageDescription":""}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+录入 道路平整度检测记录表
+{"OT":7 ,
+"RoadNo":"" , "RoadName":"" , "IRI":"" ,
+"ReportDate":"" ,"UserNo":"" , "Description":""}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+录入 道路损坏情况记录表
+{"OT":8 ,
+"RoadNo":"" , "RoadName":"" , "CheckLength":"" ,
+"CheckWidth":"" , "DamageType":"" , "DamageLength": ,
+"DamageWidth":"" , "DamageDepth":"" , "DamageSquare": ,
+"UserNo":"" , "ReportDate":""}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限

@@ -1,0 +1,4 @@
+json.dumps()  python对象 转换为  Json格式字符串
+json.loads()  Json格式字符串 转换为 python对象
+服务端收到的信息为Json格式的字符串，需要loads变为字典
+服务器要发送的数据只能是字符串，因此字典需要dumps变为Json格式的字符串
