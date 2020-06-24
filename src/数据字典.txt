@@ -1,7 +1,7 @@
 登陆验证:
 {"OT":1 , "LoginName":"admin" , "LoginPwd":"admin"}
 {'result': 0}
-{'result': 1, 'name':, 'ID':, 'AuthorityLevel': , 'Token':}
+{'result': 1, 'UserName':, 'UserNo':, 'AuthorityLevel': , 'Token':}
 
 
 录入道路基本信息表：
@@ -44,11 +44,11 @@
 {'result':0 } #查无此路
 
 
-录入日常巡查表
+录入 日常巡查表
 {"OT":6 ,
 "RoadNo":"" , "RoadName":"" , "DamageType":"" ,
 "UserNo":"" , "ReportDate":"" , "IsDamageBad": ,
-"DamageDescription":""}
+"DamageDescription":"" , "Token":"LHX123"}
 {'result':1} #执行成功
 {'result':0} #执行失败
 {'result':-1}    #没有权限
@@ -56,7 +56,7 @@
 录入 道路平整度检测记录表
 {"OT":7 ,
 "RoadNo":"" , "RoadName":"" , "IRI":"" ,
-"ReportDate":"" ,"UserNo":"" , "Description":""}
+"ReportDate":"" ,"UserNo":"" , "Description":"" , "Token":"LHX123"}
 {'result':1} #执行成功
 {'result':0} #执行失败
 {'result':-1}    #没有权限
@@ -66,7 +66,7 @@
 "RoadNo":"" , "RoadName":"" , "CheckLength":"" ,
 "CheckWidth":"" , "DamageType":"" , "DamageLength": ,
 "DamageWidth":"" , "DamageDepth":"" , "DamageSquare": ,
-"UserNo":"" , "ReportDate":""}
+"UserNo":"" , "ReportDate":"" , "Token":"LHX123"}
 {'result':1} #执行成功
 {'result':0} #执行失败
 {'result':-1}    #没有权限

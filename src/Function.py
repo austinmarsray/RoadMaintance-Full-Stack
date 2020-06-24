@@ -138,11 +138,14 @@ def insert_dailyreport(obj):
             cursor = com.conn.cursor()
             cursor.execute('''
                             insert into DailyReport(DailyReportNo,RoadNo,RoadName,ReportDate,
-                            DamageType,IsDamageBad,UserNo,DamageDescription)
+                            DamageType,IsDamageBad,UserNo,DamageDescripe)
                              values(?,?,?,?,?,?,?,?)
                           ''',(DailyReportNo,obj['RoadNo'],obj['RoadName'],obj['ReportDate'],
-                            obj['DamageType'],obj['IsDamageBad'],obj['UserNo'],obj['DamageDescription']))
+                               com._DamageType_[obj['DamageType']],obj['IsDamageBad'],obj['UserNo'],obj['DamageDescription']))
             cursor.commit()
+            if obj['IsDamageBad']==True:
+                com.Warning_List.append((obj['RoadNo'],obj['RoadName']))
+
             info = {'result':1} #执行成功
         except Exception as e:
             print(e)
@@ -188,7 +191,7 @@ def insert_damagereport(obj):
                             DamageSquare,UserNo,ReportDate)
                             values(?,?,?,?,?,?,?,?,?,?,?,?)
                           ''',(DamageReportNo,obj['RoadNo'],obj['RoadName'],obj['CheckLength'],
-                            obj['CheckWidth'],obj['DamageType'],obj['DamageLength'],obj['DamageWidth'],
+                            obj['CheckWidth'],com._DamageType_[obj['DamageType']],obj['DamageLength'],obj['DamageWidth'],
                             obj['DamageDepth'],obj['DamageSquare'],obj['UserNo'],obj['ReportDate']))
             cursor.commit()
             info = {'result':1} #执行成功
