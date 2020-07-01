@@ -40,7 +40,7 @@
 
 由路名获取道路编号
 {"OT":5 , "RoadName":"石油西路" , "Token":"LHX123"}
-{'result':1 , "RoadNo":}
+{'result':1 , "RoadNo": ,"RoadType":}
 {'result':0 } #查无此路
 
 
@@ -56,7 +56,7 @@
 录入 道路平整度检测记录表
 {"OT":7 ,
 "RoadNo":"" , "RoadName":"" , "IRI":"" ,
-"ReportDate":"" ,"UserNo":"" , "Description":"" , "Token":"LHX123"}
+"ReportDate":"" ,"UserNo":"" , "Description":"" , "RegularNo":"" ,  "Token":"LHX123"}
 {'result':1} #执行成功
 {'result':0} #执行失败
 {'result':-1}    #没有权限
@@ -65,8 +65,69 @@
 {"OT":8 ,
 "RoadNo":"" , "RoadName":"" , "CheckLength":"" ,
 "CheckWidth":"" , "DamageType":"" , "DamageLength": ,
-"DamageWidth":"" , "DamageDepth":"" , "DamageSquare": ,
-"UserNo":"" , "ReportDate":"" , "Token":"LHX123"}
+"DamageWidth":"" , "DamageDepth":"" ,
+"UserNo":"" , "ReportDate":"" , "RegularNo":"" ,  "Token":"LHX123"}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+
+获取每日巡查计划
+{"OT":9,"Token":"LHX123"}
+{'result':1 , 'info': plan数组 } #执行成功
+{'result':-1}    #没有权限
+
+
+由路名获取 道路编号 和 定期检查编号
+{"OT":10 , "RoadName":"石油西路" , "Token":"LHX123"}
+{'result':1 , "RoadNo": ， "RegularNo": , "RoadType": }
+{'result':0 } #查无此路或者没有该路的定期检查记录
+
+
+录入定期检查
+{"OT":11 , "RegularName": , "RoadNo": , "StartDate": , "EndDate":}
+{'result':1} #执行成功
+{'result':0} #执行失败
+{'result':-1}    #没有权限
+
+获取定期检查计划
+{"OT":12,"Token":"LHX123"}
+{'result':1 , 'info':plan} #执行成功
+{'result':-1}    #没有权限
+
+生成调查表和评价表
+{"OT":13 "RegularNo": , "Token":"LHX123"}
+
+
+获取统计数据
+{"OT":14, "Token":"LHX123"}
+info = {'result':1 ,
+        'type_info':type_info, 'level_info':level_info, 'con_level_info':con_level_info,
+        'RQIlevel_info':RQIlevel_info, 'PCIlevel_info':PCIlevel_info, 'PQIlevel_info':PQIlevel_info}
+info = {'result':0} #执行失败
+info = {'result':-1}    #没有权限
+
+例子：
+{"result": 1,
+"type_info": {"state": 1, "detail": [{"RoadType": "水泥路", "Num": 3}, {"RoadType": "沥青路", "Num": 3}]},
+"level_info": {"state": 1, "detail": [{"RoadLevel": "快速路", "Num": 1}, {"RoadLevel": "主干路", "Num": 4}, {"RoadLevel": "次干路", "Num": 1}]},
+"con_level_info": {"state": 1, "detail": [{"ConservationLevel": "1等养护道路", "Num": 5}, {"ConservationLevel": "2等养护道路", "Num": 1}]},
+"RQIlevel_info": {"state": 0},
+"PCIlevel_info": {"state": 0},
+"PQIlevel_info": {"state": 0}
+}
+
+
+
+获取道路列表以及养护等级
+{"OT":15, "Token":"LHX123"}
+{'result': 1, 'info':[{"RoadNo":,'ConservationLevel':} , {"RoadNo":,'ConservationLevel':} , ... ]}  # 执行成功
+{'result': 0}  # 执行失败
+{'result': -1}  # 没有权限
+
+
+删除道路基本信息
+{"OT":16 , "RoadNo": , "Token":}
 {'result':1} #执行成功
 {'result':0} #执行失败
 {'result':-1}    #没有权限
