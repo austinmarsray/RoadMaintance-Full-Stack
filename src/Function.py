@@ -316,11 +316,13 @@ def generate_statisticsdetail(RegularNo):
             cursor.execute('''select * from DamageStandard where DamageType=? and 
                               ((DamageDensityCeil>? and DamageDensityFloor<=?) or (DamageDensityCeil=? and DamageDensityFloor=?))
                             ''',(x,density,density,density,density))
-            deduction = cursor.fetchone().DamageDeduction
-            DetailNo = create_id2(x)
-            cursor.execute('''insert into StatisticsDetaill(DetailNo,DamageType,RegularNo,DamageSquare,DamageDensity,DamageDeduction)
-                              values(?,?,?,?,?,?)''',(DetailNo,x,RegularNo,square,density,deduction))
-            cursor.commit()
+            tmp = cursor.fetchone()
+            if tmp!=None:
+                deduction = tmp.DamageDeduction
+                DetailNo = create_id2(x)
+                cursor.execute('''insert into StatisticsDetaill(DetailNo,DamageType,RegularNo,DamageSquare,DamageDensity,DamageDeduction)
+                                  values(?,?,?,?,?,?)''',(DetailNo,x,RegularNo,square,density,deduction))
+                cursor.commit()
 
 def generate_RoadEvaluation(RegularNo,RoadNo):
     EvaluationNo=create_id2('RoadEvaluation')
@@ -371,6 +373,7 @@ def generate_RoadEvaluation(RegularNo,RoadNo):
 
     cursor.execute('''insert into RoadEvaluation(EvaluationNo,RegularNo,RoadNo,EvaluationDate,RQI,RQILevel,PCI,PCILevel,PQI,PQILevel) 
                       values(?,?,?,?,?,?,?,?,?,?)''',(EvaluationNo,RegularNo,RoadNo,datetime.date.today(),RQI,RQI_Level,PCI,PCI_Level,PQI,PQI_Level))
+    cursor.execute('''update RegularReport set EvaluationNo=? where RegularNo=?''',(EvaluationNo,RegularNo))
     cursor.commit()
 
 def generate_tables(obj):
@@ -450,10 +453,17 @@ def get_statistic(obj):
                                 group by tmp.RQILevel,tmp.EvaluationDate
                                 having tmp.EvaluationDate=max(tmp.EvaluationDate)''')
             rows = cursor.fetchall()
+            t = [row.RQILevel for row in rows]
+            d = {}
+            for row in rows:
+                d[row.RQILevel]=row.Num
             if rows:
                 l = []
-                for row in rows:
-                    dict_tmp = {'RQIlevel':com.Rank[row.RQILevel],'Num':row.Num}
+                for i in range(1,5):
+                    if i in t:
+                        dict_tmp = {'RQIlevel':com.Rank[i],'Num':d[i]}
+                    else:
+                        dict_tmp = {'RQIlevel': com.Rank[i], 'Num': 0}
                     l.append(dict_tmp)
                 List.append(l)
                 RQIlevel_info = {'state':1, 'detail':List[3]}
@@ -468,14 +478,20 @@ def get_statistic(obj):
                                 group by tmp.PCILevel,tmp.EvaluationDate
                                 having tmp.EvaluationDate=max(tmp.EvaluationDate)''')
             rows = cursor.fetchall()
+            t = [row.PCILevel for row in rows]
+            d = {}
+            for row in rows:
+                d[row.PCILevel] = row.Num
             if rows:
                 l = []
-                for row in rows:
-                    dict_tmp = {'PCILevel':com.Rank[row.PCILevel],'Num':row.Num}
+                for i in range(1, 5):
+                    if i in t:
+                        dict_tmp = {'PCIlevel': com.Rank[i], 'Num': d[i]}
+                    else:
+                        dict_tmp = {'PCIlevel': com.Rank[i], 'Num': 0}
                     l.append(dict_tmp)
                 List.append(l)
                 PCIlevel_info = {'state':1,'detail':List[4]}
-                l.clear()
             else:
                 PCIlevel_info = {'state':0}
 
@@ -487,14 +503,20 @@ def get_statistic(obj):
                                 group by tmp.PQILevel,tmp.EvaluationDate
                                 having tmp.EvaluationDate=max(tmp.EvaluationDate)''')
             rows = cursor.fetchall()
+            t = [row.PQILevel for row in rows]
+            d = {}
+            for row in rows:
+                d[row.PQILevel] = row.Num
             if rows:
                 l = []
-                for row in rows:
-                    dict_tmp = {'PQILevel':com.Rank[row.PQILevel],'Num':row.Num}
+                for i in range(1, 5):
+                    if i in t:
+                        dict_tmp = {'PQIlevel': com.Rank[i], 'Num': d[i]}
+                    else:
+                        dict_tmp = {'PQIlevel': com.Rank[i], 'Num': 0}
                     l.append(dict_tmp)
                 List.append(l)
                 PQIlevel_info = {'state':1,'detail':List[5]}
-                l.clear()
             else:
                 PQIlevel_info = {'state':0}
 
@@ -510,16 +532,18 @@ def get_statistic(obj):
     return info
 
 
+
 ############################### 处理函数-获取道路列表以及养护等级 ###############################
 def get_roadlist_and_conservationlevel(obj):
     if obj['Token'] in com.Tokens:
         try:
             L = []
             cursor = com.conn.cursor()
-            cursor.execute('''select RoadNo,ConservationLevel from RoadBasicSheet where IsShow=1''')
+            cursor.execute('''select RoadNo,RoadName,ConservationLevel,RoadStart from RoadBasicSheet where IsShow=1''')
             rows = cursor.fetchall()
             for row in rows:
-                dict_tmp = {"RoadNo": row.RoadNo,'ConservationLevel': row.ConservationLevel}
+                dict_tmp = {"RoadNo": row.RoadNo,"RoadName":row.RoadName,'ConservationLevel': row.ConservationLevel
+                    ,"RoadStart":row.RoadStart}
                 L.append(dict_tmp)
 
             info = {'result': 1, 'info':L}  # 执行成功
